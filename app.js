@@ -84,6 +84,13 @@ app.post('/employee/:id/edit', function(req, res) {
         });
 });
 
+//delete an employee
+app.post('/employee/:id/delete', function(req, res) {
+        employeeProvider.delete(req.param('_id'), function(error, docs) {
+                res.redirect('/')
+        });
+});
+
 // Server
 
 http.createServer(app).listen(app.get('port'), function(){
