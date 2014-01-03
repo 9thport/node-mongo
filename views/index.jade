@@ -8,4 +8,7 @@ block content
             div.created_at= employee.created_at
             div.title= employee.title 
             div.name= employee.name
+                form( method="get", action="/employee/:id/edit") 
+                    input(name="_id", type="hidden", value=employee._id.toHexString()) 
+                    input(id="edit", value="Edit", type="submit")
         a(href="/employee/new")!= "Add New Employee"

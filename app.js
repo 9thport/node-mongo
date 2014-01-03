@@ -64,6 +64,26 @@ app.post('/employee/new', function(req, res){
     });
 });
 
+//update an employee
+app.get('/employee/:id/edit', function(req, res) {
+        employeeProvider.findById(req.param('_id'), function(error, employee) {
+                res.render('employee_edit',
+                { 
+                        employee: employee
+                });
+        });
+});
+
+//save updated employee
+app.post('/employee/:id/edit', function(req, res) {
+        employeeProvider.update(req.param('_id'),{
+                title: req.param('title'),
+                name: req.param('name')
+        }, function(error, docs) {
+                res.redirect('/')
+        });
+});
+
 // Server
 
 http.createServer(app).listen(app.get('port'), function(){
