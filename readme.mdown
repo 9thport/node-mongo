@@ -1,0 +1,7 @@
+# Overview
+
+A sample nodejs application with mongo db drivers. Using the website:
+
+http://blog.ijasoneverett.com/2013/03/a-sample-app-with-node-js-express-and-mongodb-part-1/
+
+as an source for example code to build upon.
