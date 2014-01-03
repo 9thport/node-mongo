@@ -79,4 +79,18 @@ EmployeeProvider.prototype.update = function(employeeId, employees, callback) {
     });
 };
 
+// delete an employee
+EmployeeProvider.prototype.delete = function(employeeId, callback) {
+        this.getCollection(function(error, employee_collection) {
+                if(error) callback(error);
+                else {
+                        employee_collection.remove(
+                                {_id: employee_collection.db.bson_serializer.ObjectID.createFromHexString(employeeId)},
+                                function(error, employee){
+                                        if(error) callback(error);
+                                        else callback(null, employee)
+                                });
+                        }
+        });
+};
 exports.EmployeeProvider = EmployeeProvider;
