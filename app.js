@@ -13,18 +13,33 @@ var EmployeeProvider = require('./employeeprovider').EmployeeProvider;
 var app = express();
 
 // all environments
-app.set('port', process.env.PORT || 3000);
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+app.set('port', process.env.PORT || 3000);              // set port for application 
+                                                        // (process.env.PORT allows override with "PORT=1234 node app.js")
+                                                        // (in windows, use "set PORT=1234")
+                                                        // (in windows powershell, use "$env:PORT = 80")
+
+app.set('views', path.join(__dirname, 'views'));        // set path for views directory
+app.set('view engine', 'jade');                         // set view engine
 app.set('view options', {layout: false});
-app.use(express.favicon());
-app.use(express.logger('dev'));
+app.use(express.favicon());                          // set favicon
+app.use(express.logger('dev'));                         // logs every request
 app.use(express.json());
+
+//Request body parsing middleware supporting JSON, urlencoded, and multipart requests
 app.use(express.bodyParser());
+
 app.use(express.urlencoded());
+
+// Compress response data with gzip / deflate
 app.use(express.methodOverride());
+
+// enable routing
 app.use(app.router);
+
+// set the use of stylus
 app.use(require('stylus').middleware(path.join(__dirname, 'public')));
+
+// set the path for static files
 app.use(express.static(path.join(__dirname, 'public')));
 
 // development only
@@ -32,17 +47,21 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
+// set employee controller code, also provides settings for mongo host and port
 var employeeProvider= new EmployeeProvider('localhost', 27017);
 
 //Routes
 
+// the default routes
 // app.get('/', routes.index);
 // app.get('/users', user.list);
 
 app.get('/', function(req, res){
   employeeProvider.findAll(function(error, emps){
       res.render('index', {
+            // set variable for the title of the page
             title: 'Employees',
+            // set the variable employees to hold the data returned from the findAll method
             employees:emps
         });
   });
